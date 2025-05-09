@@ -1,0 +1,30 @@
+.coub-title {
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    animation: fadeInUp 0.2s ease-out forwards;
+    z-index: 10;
+}
+
+/* 🎭 Анимация появления снизу вверх */
+@keyframes fadeInUp {
+    from {
+        transform: translateX(-50%) translateY(10px) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(-50%) translateY(0) scale(1);
+        opacity: 1;
+    }
+}

@@ -6,20 +6,16 @@
 
 import './PomadoroBox.css'
 import PomadoroTimer from "./PomadoroTimer.jsx";
+import PomadoroCoubStorage from "./PomadoroCoubStorage/PomadoroCoubStorage.jsx";
 
 export default function PomadoroBox() {
     return (
         <div className="flex flex-col gap-2">
 
-            <label htmlFor="name">Введи название задачи над которой ты работаешь</label>
 
-            <input
-                className="inputText"
-                type="text"
-                maxLength="25"
-            />
+
+            <PomadoroCoubStorage></PomadoroCoubStorage>
             <PomadoroTimer></PomadoroTimer>
-
         </div>
     )
 }
