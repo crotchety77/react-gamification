@@ -15,7 +15,7 @@ export default function PomadoroBox() {
 
 
             <PomadoroCoubStorage></PomadoroCoubStorage>
-            <PomadoroTimer></PomadoroTimer>
+
         </div>
     )
 }

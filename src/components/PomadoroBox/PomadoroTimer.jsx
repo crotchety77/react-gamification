@@ -2,12 +2,13 @@ import "./PomadoroTimer.css";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useCallback } from "react";
 
-export default function PomadoroTimer() {
+export default function PomadoroTimer( {sendTimeToCoub} ) {
 
     const [duration, setDuration] = useState(25 * 60 * 1000); // сколько длится таймер = 25 минут
     const [startAt, setStartAt] = useState(); // когда таймер стартовал (в миллисекундах)
     const [initialTimer, setInitialTimer] = useState(0); // сколько времени уже прошло, если была пауза
 
+    const [firstStartAt, setFirstStartAt] = useState(); // 💾 Первый запуск — сохраняется один раз
 
 
     const now = useNow(1000, startAt); // Каждую секунд обновляем StartAt
@@ -26,17 +27,23 @@ export default function PomadoroTimer() {
 
     const toggleTimer = () => {
         if (startAt) {
-            // Пауза
-            setInitialTimer(timer); // сохраняем сколько прошло
-            setStartAt(); // обнуляем старт → таймер не активен
+            // Таймер работает — ставим на паузу
+            setInitialTimer(timer);
+            setStartAt(undefined);
         } else {
-            setStartAt(Date.now());
+            const now = Date.now();
+            setStartAt(now);
+
+            if (!firstStartAt) {
+                setFirstStartAt(now);          // Сохраняем "исторический старт"
+                sendTimeToCoub(now, null);     // Сообщаем наружу — таймер начался!
+            }
         }
     };
 
 
-
     const resetTimer = useCallback(() => {
+        setFirstStartAt(undefined); // Сброс таймера для корректного времени начала старта задачи
         setStartAt();
         setInitialTimer(0);
     }, []); // массив зависимостей пустой, значит функция не изменится
@@ -51,18 +58,20 @@ export default function PomadoroTimer() {
 
     const isCountEnd = countDown <= 0;
 
-    // Если isCountEnd стало true, и таймер был запущен — 🔔 звоним!
+    // При окончании — вызываем onDone и сбрасываем
     useEffect(() => {
         if (isCountEnd && startAt) {
-            alert("⏰ Время вышло!");
-            resetTimer(); // можно убрать, если хочешь сохранить "завершённое" состояние
+            const endAt = Date.now();
+            sendTimeToCoub(startAt, endAt);
+            resetTimer();
+            setFirstStartAt(undefined); // Сброс начала таймера
         }
-    }, [isCountEnd, startAt, resetTimer]);
+    }, [isCountEnd, startAt, resetTimer, sendTimeToCoub, firstStartAt]);
 
     return (
         <div>
             <div style={{marginBottom: "10px"}}>
-                <button onClick={() => setPomodoro(25)}>🍅 25 мин</button>
+                <button onClick={() => setPomodoro(0.1)}>🍅 25 мин</button>
                 <button onClick={() => setPomodoro(5)}>☕ 5 мин</button>
                 <button onClick={resetTimer}>🔁 Сброс</button>
             </div>

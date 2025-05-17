@@ -2,8 +2,10 @@ import PomadoroTitle from "./PomadoroTitle.jsx";
 import { useState } from "react";
 import './PomadoroCoubDone.css'
 
-export default function PomadoroCoubDone({ title, color, onDelete }) {
+export default function PomadoroCoubDone({ title, color, onDelete, timeTask }) {
     const [showInfo, setShowInfo] = useState(false);
+
+
 
     // Роль: отдельный кубик (компонент), отображающий завершённую задачу.
     return (
@@ -28,7 +30,9 @@ export default function PomadoroCoubDone({ title, color, onDelete }) {
 
             <span style={{ fontSize: "12px", color: "#fff", textAlign: "center" }}>♥</span>
 
-            {showInfo && <PomadoroTitle title={title} />}
+            {showInfo && <PomadoroTitle title={title} timeTask={timeTask} />}
+            {/*<PomadoroTitle title={title} timeTask={timeTask} />*/}
+
 
             <button
                     onClick={onDelete}
