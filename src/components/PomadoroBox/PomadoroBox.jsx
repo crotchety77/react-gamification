@@ -10,12 +10,15 @@ import PomadoroCoubStorage from "./PomadoroCoubStorage/PomadoroCoubStorage.jsx";
 
 export default function PomadoroBox() {
     return (
-        <div className="flex flex-col gap-2">
+        <>
+            <div className="flex flex-col gap-2">
 
 
 
-            <PomadoroCoubStorage></PomadoroCoubStorage>
+                <PomadoroCoubStorage></PomadoroCoubStorage>
 
-        </div>
+            </div>
+
+        </>
     )
 }

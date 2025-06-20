@@ -62,6 +62,7 @@ export default function PomadoroTimer( {sendTimeToCoub} ) {
     useEffect(() => {
         if (isCountEnd && startAt) {
             const endAt = Date.now();
+            alert('Время вышло! ⌛')
             sendTimeToCoub(startAt, endAt);
             resetTimer();
             setFirstStartAt(undefined); // Сброс начала таймера
@@ -71,7 +72,7 @@ export default function PomadoroTimer( {sendTimeToCoub} ) {
     return (
         <div>
             <div style={{marginBottom: "10px"}}>
-                <button onClick={() => setPomodoro(0.1)}>🍅 25 мин</button>
+                <button onClick={() => setPomodoro(25)}>🍅 25 мин</button>
                 <button onClick={() => setPomodoro(5)}>☕ 5 мин</button>
                 <button onClick={resetTimer}>🔁 Сброс</button>
             </div>

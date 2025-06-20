@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PomadoroTimer from "../PomadoroTimer.jsx";
 import PomadoroCoubDone from "../PomadoroCoub/PomadoroCoubDone.jsx";
+import PomadoroViewSession from "../PomadoroViewSession/PomadoroViewSession.jsx";
 
 export default function PomadoroCoubStorage() {
     const COLORS = ["#35ca86", "#ff7f50", "#6a5acd", "#ffa500", "#20b2aa", "#ff69b4", "#4682b4", "#a52a2a"];
@@ -8,6 +9,8 @@ export default function PomadoroCoubStorage() {
 
     // Передам их из Таймера
     const [lastStart, setLastStart] = useState(null);
+
+    // eslint-disable-next-line no-unused-vars
     const [lastEnd, setLastEnd] = useState(null);
 
     const [coubList, setCoubList] = useState(() => {
@@ -39,7 +42,7 @@ export default function PomadoroCoubStorage() {
             color: getRandomColor(),
             timeTask: {
                 start: lastStart ?? " ",  // если lastStart = null — ставим now
-                end: lastEnd ?? now,      // если lastEnd = null — ставим now
+                end: now,      // если lastEnd = null — ставим now
             },
         };
 
@@ -60,7 +63,7 @@ export default function PomadoroCoubStorage() {
             <input
                 className="inputText max-w-[300px] w-full"
                 type="text"
-                maxLength="100"
+                maxLength="1000"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
             />
@@ -87,8 +90,10 @@ export default function PomadoroCoubStorage() {
                 ))}
             </div>
 
+            <PomadoroViewSession></PomadoroViewSession>
             {/* Передаём коллбек в таймер */}
             <PomadoroTimer sendTimeToCoub={sendTimeToCoub} />
+
         </div>
     );
 }
