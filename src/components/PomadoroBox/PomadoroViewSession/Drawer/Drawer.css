@@ -1,0 +1,57 @@
+/* Затемнение фона */
+.drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 40;
+    transition: opacity 300ms ease;
+}
+
+.drawer-backdrop.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.drawer-backdrop.visible {
+    opacity: 1;
+}
+
+/* Центрированное окно */
+.drawer-panel {
+    position: fixed;
+    top: 50%;
+    left: 75%;
+    width: 400px;
+    max-width: 100%;
+    background-color: white;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+    border-radius: 1rem;
+    transition: transform 300ms ease, opacity 300ms ease;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.drawer-panel.open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Кнопка закрытия */
+.drawer-close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.25rem;
+    color: #000; /* или #fff если на тёмном фоне */
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Контейнер с содержимым */
+.drawer-content {
+    padding: 1.5rem;
+}

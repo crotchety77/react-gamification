@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import "./Drawer.css";
 
 export default function Drawer({ isOpen, onClose, children }) {
     useEffect(() => {
@@ -9,27 +10,18 @@ export default function Drawer({ isOpen, onClose, children }) {
 
     return (
         <>
-            {/* Затемнение фона */}
             <div
-                className={`fixed inset-0 bg-black/40 z-40 transition-opacity ${
-                    isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-                }`}
+                className={`drawer-backdrop ${isOpen ? "visible" : "hidden"}`}
                 onClick={onClose}
             />
-
-            {/* Панель */}
-            <div
-                className={`fixed top-0 right-0 h-full w-80 bg-white z-50 shadow-lg transition-transform duration-300 ${
-                    isOpen ? "translate-x-0" : "translate-x-full"
-                }`}
-            >
+            <div className={`drawer-panel ${isOpen ? "open" : ""}`}>
                 <button
-                    className="absolute top-2 right-2 text-xl"
+                    className="drawer-close-button"
                     onClick={onClose}
                 >
                     ✖
                 </button>
-                <div className="p-4">{children}</div>
+                <div className="drawer-content">{children}</div>
             </div>
         </>
     );

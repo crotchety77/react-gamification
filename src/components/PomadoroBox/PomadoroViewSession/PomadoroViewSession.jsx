@@ -5,7 +5,7 @@ export default function PomadoroViewSession() {
     const [isOpenPanel, setIsOpenPanel] = useState(false);
 
     return (
-        <div className="p-6">
+        <div className="p-6 text-black">
             <button
                 onClick={() => setIsOpenPanel(true)}
                 className="bg-blue-600 text-white px-4 py-2 rounded"
