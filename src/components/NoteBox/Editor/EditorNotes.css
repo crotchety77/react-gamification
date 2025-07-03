@@ -24,3 +24,80 @@
   color: #9ca3af; /* text-gray-400 */
   font-style: italic;
 }
+
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* .toggle-preview-button {
+  align-self: flex-start;
+  margin-bottom: 8px;
+  padding: 6px 12px;
+  font-weight: 600;
+  background-color: #4ade80;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #1f2937;
+  transition: background-color 0.2s ease;
+} */
+
+.toggle-preview-button {
+  /* width: 100%; */
+  align-self: flex-start;
+  margin-bottom: 8px;
+  padding: 6px 12px;
+    border: none;
+  border-radius: 6px;
+
+  background-color: #4ade80; /* bg-green-400 */
+  color: white;
+  font-weight: bold;
+  /* padding: 0.5rem 0.5rem; py-2 px-4 */
+  /* border-radius: 0.5rem; */
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.toggle-preview-buttonn:hover {
+  background-color: #579b70; /* hover:bg-green-500 */
+}
+
+.toggle-preview-button:focus {
+  outline: none !important; /* убирает синий контур */
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.5); /* твоё зелёное свечение */
+}
+
+.toggle-preview-button:active {
+  background-color: #16a34a;
+  transform: scale(0.98);
+}
+
+.editor-textarea {
+  flex-grow: 1;
+  width: 100%;
+  resize: none;
+  padding: 12px;
+  font-family: monospace;
+  font-size: 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+}
+
+.markdown-preview {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 12px;
+  background-color: #f9fafb;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  color: black;
+  text-align: start;
+}
