@@ -1,0 +1,46 @@
+.note-box {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.editor-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-button {
+  position: fixed; /* 👈 фиксируем к экрану */
+  top: 1rem;
+  right: 1rem; /* 👈 всегда справа */
+  background-color: #e5e7eb; /* bg-gray-200 */
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #374151;
+  z-index: 1000; /* 👈 поверх всего */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.toggle-button:hover {
+  background-color: #d1d5db; /* hover:bg-gray-300 */
+}
+
+.toggle-button-fixed {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background-color: #e6ebe5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  z-index: 10;
+}

@@ -1,0 +1,71 @@
+.sidebar {
+  width: 12rem; /* w-64 */
+  padding: 0.5rem; 
+  /* border-left: 1px solid #d1d5db; border-r (gray-300) */
+  background-color: #f3f4f6; /* bg-gray-100 */
+   border-radius: 0.5rem;
+
+    overflow-y: auto; /* вертикальная прокрутка при переполнении */
+    scrollbar-color: #cbd5e1 transparent; /* цвет ползунка и трека */
+
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f5f9; /* светлый трек */
+  border-radius: 8px;
+}
+
+.add-note-button {
+  width: 100%;
+  background-color: #4ade80; /* bg-green-400 */
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 0.5rem; /* py-2 px-4 */
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.add-note-button:hover {
+  background-color: #579b70; /* hover:bg-green-500 */
+}
+
+.add-note-button:focus {
+  outline: none !important; /* убирает синий контур */
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.5); /* твоё зелёное свечение */
+}
+
+.add-note-button:active {
+  background-color: #16a34a;
+  transform: scale(0.98);
+}
+
+
+
+.note-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* space-y-1 */
+}
+
+.note-item {
+font-size: 12px;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #374151; /* text-gray-700 */
+}
+
+.note-item:hover {
+  background-color: #ffffff;
+}
+
+.note-item.active {
+  background-color: #ffffff;
+  font-weight: bold;
+  color: black;
+}
+

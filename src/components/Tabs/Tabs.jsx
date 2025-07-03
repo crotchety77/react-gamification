@@ -1,6 +1,6 @@
 const tabs = [
-    { id: "pomodoro", label: "⏱ Помодоро", color: "bg-rose-200" },
-    // Можно добавить другие табы по вкусу!
+  { id: "pomodoro", label: "⏱ Помодоро", color: "bg-rose-200" },
+  { id: "notes", label: "📝 Заметки", color: "bg-yellow-200" },
 ];
 
 export default function Tabs({ onSelect }) {

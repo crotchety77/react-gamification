@@ -1,5 +1,8 @@
 import express from 'express'
 import { backRouter } from './src/backend/back.controller.js';
+import dotenv from 'dotenv'
+
+dotenv.config() // Подгрузка файла .env
 
 const app = express()
 
@@ -22,10 +25,14 @@ async function main() {
     // })    
 
     app.use('/api/messages', backRouter)
+
     
+    app.use((req, res) => {
+    res.status(404).json({ message: 'Not Found' });
+    });
     // Запуск сервера
     // Порт по привычке у автора 4200 или 5000
-    app.listen(4200, () => {
+    app.listen(process.env.PORT || 4200, () => {
         console.log('Сервер запущен')
     })
 }

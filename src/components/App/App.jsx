@@ -4,7 +4,6 @@ import RightPage from "../RightPage/RightPage.jsx";
 import Tabs from "../Tabs/Tabs.jsx";
 import './App.css'
 
-
 export default function App() {
     // 🧠 Состояние правой страницы — что сейчас открыто
     const [rightPage, setRightPage] = useState(null); // ← стартуем с пустоты!
