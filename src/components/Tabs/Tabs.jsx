@@ -1,20 +1,24 @@
+import "./Tabs.css";
+
 const tabs = [
-  { id: "pomodoro", label: "⏱ Помодоро", color: "bg-rose-200" },
-  { id: "notes", label: "📝 Заметки", color: "bg-yellow-200" },
+  { id: "pomodoro", label: "⏰ Помодоро", colorClass: "bg-rose-200" },
+  { id: "notes", label: "📝 Заметки", colorClass: "bg-yellow-200" },
+  { id: "projects", label: "📚 Проекты", colorClass: "bg-green-200" },
+  { id: "inventory", label: "🔧 Инвентарь", colorClass: "bg-blue-200" },
 ];
 
 export default function Tabs({ onSelect }) {
-    return (
-        <div className="absolute top-4 left-0 flex flex-col gap-2 px-2">
-            {tabs.map((tab) => (
-                <button
-                    key={tab.id}
-                    className={`px-4 py-2 text-sm font-bold rounded-r shadow-md hover:scale-105 transition-all duration-150 ${tab.color}`}
-                    onClick={() => onSelect(tab.id)}
-                >
-                    {tab.label}
-                </button>
-            ))}
-        </div>
-    );
+  return (
+    <div className="tabsContainer">
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          className={`tabButton ${tab.colorClass}`}
+          onClick={() => onSelect(tab.id)}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  );
 }

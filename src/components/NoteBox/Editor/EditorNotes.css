@@ -78,6 +78,7 @@
 }
 
 .editor-textarea {
+  background-color: #f9fafb;
   flex-grow: 1;
   width: 100%;
   resize: none;
@@ -86,6 +87,8 @@
   font-size: 1rem;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
+
+   scrollbar-color: #cbd5e1 transparent; /* цвет ползунка и трека */
 }
 
 .markdown-preview {
@@ -100,4 +103,7 @@
   font-size: 20px;
   color: black;
   text-align: start;
+
+  scrollbar-color: #cbd5e1 transparent; /* цвет ползунка и трека */
 }
+

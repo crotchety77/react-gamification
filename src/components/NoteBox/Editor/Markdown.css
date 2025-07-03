@@ -64,3 +64,33 @@
   color: #3b82f6;
   text-decoration: underline;
 }
+
+.markdown-preview input[type="checkbox"] {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+  border: 2px solid #ccc;
+  border-radius: 0.2rem;
+  background-color: white;
+  
+  vertical-align: middle;
+  cursor: default;
+  position: relative;
+}
+
+.markdown-preview input[type="checkbox"]:checked {
+  background-color: white;
+  border-color: #22c55e; /* зелёный бортик */
+
+}
+
+.markdown-preview input[type="checkbox"]:checked::after {
+  content: "✔";
+  position: absolute;
+  font-size: 0.75rem;
+  top: -0.21rem;
+  left: 0.10rem;
+  color: #22c55e;
+  pointer-events: none;
+}
