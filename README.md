@@ -1,16 +1,47 @@
-<<<<<<< HEAD
-# React + Vite
+# 🎮 react-gamification
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**REST API + PostgreSQL backend для системы геймификации (управление проектами, пользовательский dashboard).**
 
-Currently, two official plugins are available:
+> Проект находится в разработке. Реализуется на Node.js + Express. В перспективе — интеграция с frontend (React + MobX).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📌 Скрипты
 
-## Expanding the ESLint configuration
+| Команда         | Назначение                    |
+|-----------------|-------------------------------|
+| `npm run dev`   | Запуск frontend (Vite)        |
+| `npm run server`| Запуск backend через Nodemon |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# react-gamification
->>>>>>> 4d71b0a22d696c2c45a4376091100a9f76bf17bd
+
+## 🚀 Технологии и стек
+
+### Backend:
+- **Node.js** — серверное окружение;
+- **Express.js** — маршрутизация и логика API;
+- **PostgreSQL** — реляционная база данных;
+- **pg** — драйвер для PostgreSQL;
+- **JWT (в процессе)** — авторизация и защита маршрутов;
+- **Sequelize** — ORM;
+- **dotenv** — конфигурация окружения;
+- **express-fileupload** — работа с файлами;
+- **UUID** — генерация уникальных идентификаторов;
+
+### Frontend (в планах):
+- **React** — библиотека для интерфейса;
+- **MobX** — управление состоянием;
+- **TailwindCSS** — стилизация компонентов;
+- **react-markdown + remark-gfm** — поддержка Markdown-разметки;
+
+### Dev-инструменты:
+- **Vite** — сборка frontend;
+- **ESLint** — линтинг;
+- **nodemon** — hot-reload сервера;
+
+---
+
+## 🧩 Реализованные модули (на текущий момент)
+
+- [x] Настройка сервера ExpressJS
+- [x] Подключение PostgreSQL через `pg`
+- [x] JWT-авторизация (в процессе)
+- [x] CRUD API для проектов (70% готово)
+- [x] Middleware для обработки ошибок
