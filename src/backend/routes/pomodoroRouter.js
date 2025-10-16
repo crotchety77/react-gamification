@@ -7,7 +7,7 @@ const pomodoroController = new PomodoroController()
 // userRouter.post('/registration',)
 pomodoroRouter.post('/', pomodoroController.create);
 pomodoroRouter.get('/', pomodoroController.getAll)
-
+pomodoroRouter.delete('/:id', pomodoroController.delete); // <--- новый маршрут
 
 
 

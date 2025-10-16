@@ -1,6 +1,7 @@
-export default function PomadoroTitle({ title, timeTask }) {
+export default function PomadoroTitle({ title, startTime, endTime }) {
 
-    const { start, end } = timeTask || {};
+
+
     function formatTime(ms) {
 
         //const date = new Date(1718872100000);
@@ -16,15 +17,20 @@ export default function PomadoroTitle({ title, timeTask }) {
         return date.toLocaleTimeString("ru-RU", { hour12: false }); // формат: HH:MM:SS
     }
 
+    // Проверка на равенство startTime и endTime
+    // Чтобы не было start : start
+    const displayStart = startTime && endTime && startTime !== endTime ? formatTime(startTime) : " ";
+
+
     return (
 
         <div className="coub-title">
             {title}
 
             {/*// {условие && <Компонент />}*/}
-            {timeTask?.start && timeTask?.end && (
+            {startTime && endTime && (
                 <div className="text-sm opacity-70 mt-1 whitespace-nowrap">
-                    🕒 {formatTime(start)} – {formatTime(end)}
+                    🕒 {displayStart} – {formatTime(endTime)}
                 </div>
             )}
         </div>

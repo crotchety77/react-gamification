@@ -33,7 +33,13 @@ const PORT = process.env.PORT || 3000;
 const start = async () => {
     try {
 
-        await sequelize.authenticate()
+        try {
+            await sequelize.authenticate();
+            console.log('✅ Подключение к базе успешно!');
+        } catch (error) {
+            console.error('❌ Ошибка подключения к базе данных:');
+            console.error(error.message);
+        }
         await sequelize.sync()
 
         app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

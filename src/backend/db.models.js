@@ -26,7 +26,8 @@ const Pomodoro = sequelize.define('pomodoro', {
     color: { type: DataTypes.STRING },
     startTime: { type: DataTypes.DATE },
     endTime: { type: DataTypes.DATE },
-    description: { type: DataTypes.TEXT }
+    description: { type: DataTypes.TEXT },
+    projectId: { type: DataTypes.INTEGER, allowNull: true } // <- опционально
 });
 
 
@@ -34,7 +35,8 @@ const Pomodoro = sequelize.define('pomodoro', {
 const Note = sequelize.define('note', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: { type: DataTypes.STRING },
-    content: { type: DataTypes.TEXT }
+    content: { type: DataTypes.TEXT },
+    projectId: { type: DataTypes.INTEGER, allowNull: true } // <- опционально
 });
 
 
@@ -74,10 +76,10 @@ Project.belongsTo(User)
 
 // Projects
 Project.hasMany(Pomodoro)
-Pomodoro.belongsTo(Project)
+Pomodoro.belongsTo(Project, { foreignKey: 'projectId' })
 
 Project.hasMany(Note)
-Note.belongsTo(Project)
+Note.belongsTo(Project, { foreignKey: 'projectId' })
 
 Project.hasMany(ProjectItem)
 ProjectItem.belongsTo(Project)
