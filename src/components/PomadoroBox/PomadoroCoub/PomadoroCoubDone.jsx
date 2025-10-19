@@ -1,7 +1,7 @@
 import PomadoroTitle from "./PomadoroTitle.jsx";
 // import { useState } from "react";
 import './PomadoroCoubDone.css'
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { colorizeSvg } from './SvgToColor.js';
 import svgContent from './PixelBlock.svg?raw'; // импортируем SVG как строку
 
@@ -25,13 +25,18 @@ export function ColorSvg({ svgContent, color }) {
 }
 
 
-export default function PomadoroCoubDone({ title, color, onDelete, startTime, endTime }) {
-    const [showInfo, setShowInfo] = useState(false);
+export default function PomadoroCoubDone({ title, color, onDelete, startTime, endTime, id, focusedId, setFocusedId }) {
+
+    const isFocused = focusedId === id;
+    const cubeRef = useRef(null); // Для работы Tooltip
 
     // Роль: отдельный кубик (компонент), отображающий завершённую задачу.
     return (
         <div
+            ref={cubeRef} // Для работы Tooltip
+
             style={{
+
                 width: "60px",
                 height: "60px",
                 margin: "5px",
@@ -42,8 +47,8 @@ export default function PomadoroCoubDone({ title, color, onDelete, startTime, en
                 position: "relative",
                 cursor: "pointer",
             }}
-            onMouseEnter={() => setShowInfo(true)}
-            onMouseLeave={() => setShowInfo(false)}
+            onMouseEnter={() => setFocusedId(id)}
+            onMouseLeave={() => setFocusedId(null)}
         >
             {/* SVG с градиентным pixel art блоком */}
             <ColorSvg svgContent={svgContent} color={color}/>
@@ -63,8 +68,15 @@ export default function PomadoroCoubDone({ title, color, onDelete, startTime, en
             ♥
         </span>
 
-            {/* Всплывающая информация */}
-            {showInfo && <PomadoroTitle title={title} startTime={startTime} endTime={endTime}/>}
+            {/* Всплывающая информация Tooltip*/}
+            {isFocused && (
+                <PomadoroTitle
+                    title={title}
+                    startTime={startTime}
+                    endTime={endTime}
+                    targetRef={cubeRef} // передаём ref для позиционирования
+                />
+            )}
 
             {/* Кнопка удаления */}
             <button
@@ -88,17 +100,21 @@ export default function PomadoroCoubDone({ title, color, onDelete, startTime, en
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="10"
-                    height="10"
+                    width="12"
+                    height="12"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke={color}
-                    strokeWidth="4"
+                    strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    style={{
+                        display: "block", // убирает baseline-смещение
+                        shapeRendering: "crispEdges", // пиксельная точность
+                    }}
                 >
-                    <line x1="18" y1="6" x2="6" y2="18"/>
                     <line x1="6" y1="6" x2="18" y2="18"/>
+                    <line x1="18" y1="6" x2="6" y2="18"/>
                 </svg>
             </button>
         </div>

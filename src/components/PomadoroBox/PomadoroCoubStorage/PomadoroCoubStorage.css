@@ -1,0 +1,36 @@
+.buttonCoub {
+    background-color: #222;
+    color: white;
+    border-radius: 5px;
+    padding: 6.5px;
+    transition: 0.2s;
+}
+
+.buttonCoub:hover {
+    background-color: #444;
+}
+
+.scrollDescription {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: #cbd5e1 transparent; /* цвет ползунка и трека */
+}
+
+.scrollDescription::-webkit-scrollbar-track {
+    background: #f1f5f9; /* светлый трек */
+    border-radius: 8px;
+}
+
+
+.scrollCoubs {
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-color: #cbd5e1 transparent; /* цвет ползунка и трека */
+}
+
+.scrollCoubs::-webkit-scrollbar-track {
+    background: #f1f5f9; /* светлый трек */
+    border-radius: 8px;
+}
+

@@ -1,8 +1,9 @@
 .coub-title {
     position: absolute;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%) scale(1);
+    /* bottom: 70px;  <- убрать */
+    /* left: 50%;     <- убрать */
+    /* transform: translateX(-50%) scale(1); <- убрать */
+
     background: rgba(0, 0, 0, 0.75);
     color: #fff;
     padding: 6px 12px;
@@ -14,15 +15,17 @@
     opacity: 0;
     pointer-events: none;
     animation: fadeInUp 0.2s ease-out forwards;
-    z-index: 10;
 
-    /* Главное: */
     width: max-content;
     max-width: 170px;
 
     word-break: break-word;
     overflow-wrap: break-word;
+
+    display: inline-block;
+    text-align: center;
 }
+
 
 /* 🎭 Анимация появления снизу вверх */
 @keyframes fadeInUp {

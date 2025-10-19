@@ -1,40 +1,50 @@
-export default function PomadoroTitle({ title, startTime, endTime }) {
+// PomadoroTitle.jsx
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import "./PomadoroCoubDone.css"
 
+export default function PomadoroTitle({ title, startTime, endTime, targetRef }) {
+    const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-
+    // Форматирование времени
     function formatTime(ms) {
-
-        //const date = new Date(1718872100000);
-        //Tue Jun 20 2024 14:15:00 GMT+0300 (Moscow Standard Time)
         const date = new Date(ms);
-        // Это создаёт объект Date и мы его форматируем
-
-        // Для старта, если его нет. Возвращем ПУСТОТУ
-        if (isNaN(date.getTime())) {
-            return " ";
-        }
-
-        return date.toLocaleTimeString("ru-RU", { hour12: false }); // формат: HH:MM:SS
+        if (isNaN(date.getTime())) return " ";
+        return date.toLocaleTimeString("ru-RU", { hour12: false });
     }
 
-    // Проверка на равенство startTime и endTime
-    // Чтобы не было start : start
-    const displayStart = startTime && endTime && startTime !== endTime ? formatTime(startTime) : " ";
+    const displayStart =
+        startTime && endTime && startTime !== endTime ? formatTime(startTime) : " ";
 
+    useEffect(() => {
+        if (!targetRef.current) return;
+        const rect = targetRef.current.getBoundingClientRect();
 
-    return (
+        setCoords({
+            top: rect.top - 50, // позиция тултипа над кубиком
+            left: rect.left + rect.width / 2,
+        });
+    }, [targetRef]);
 
-        <div className="coub-title">
+    return createPortal(
+        <div
+            className="coub-title"
+            style={{
+                position: "absolute",
+                top: coords.top,
+                left: coords.left,
+                transform: "translateX(-50%) scale(1)",
+                zIndex: 9999,
+            }}
+        >
             {title}
 
-            {/*// {условие && <Компонент />}*/}
             {startTime && endTime && (
                 <div className="text-sm opacity-70 mt-1 whitespace-nowrap">
                     🕒 {displayStart} – {formatTime(endTime)}
                 </div>
             )}
-        </div>
-
-
-    )
+        </div>,
+        document.body
+    );
 }

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import PomadoroTimer from "../PomadoroTimer.jsx";
 import PomadoroCoubDone from "../PomadoroCoub/PomadoroCoubDone.jsx";
-import PomadoroViewSession from "../PomadoroViewSession/PomadoroViewSession.jsx";
+import "./PomadoroCoubStorage.css"
 
 export default function PomadoroCoubStorage() {
     const [status, setStatus] = useState(""); // для сообщений об ошибках или успехе на бэке при сохранении помидорок
     const COLORS = ["#35ca86", "#ff7f50", "#6a5acd", "#ffa500", "#20b2aa", "#ff69b4", "#4682b4", "#a52a2a"];
     const getRandomColor = () => COLORS[Math.floor(Math.random() * COLORS.length)];
+    const [focusedId, setFocusedId] = useState(null); // Для уведомления помидоров
 
     // Передам их из Таймера
     const [lastStart, setLastStart] = useState(null);
@@ -16,6 +17,7 @@ export default function PomadoroCoubStorage() {
 
     const [coubList, setCoubList] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const [inputDescription, setInputDescription] = useState("");
 
     const sendTimeToCoub = (start, end) => {
         setLastStart(start);
@@ -53,9 +55,10 @@ export default function PomadoroCoubStorage() {
         // Этот объект используется для управления состоянием на фронте (например, сразу показать кубик)
         const newCoub = {
             title: inputValue,
+            description: inputDescription,
             projectId: 1,
             startTime: lastStart ?? now, // ✅ frontend: текущее сохранённое время начала или "сейчас"
-            endTime: lastEnd ?? now      // ✅ frontend: текущее сохранённое время окончания или "сейчас"
+            endTime: lastEnd ?? now,      // ✅ frontend: текущее сохранённое время окончания или "сейчас"
         };
         // ------------------------------------------------------------
 
@@ -82,6 +85,7 @@ export default function PomadoroCoubStorage() {
             // Здесь уже можно добавить frontend-поля, которых нет на сервере, например цвет
             setCoubList(prev => [...prev, { ...saved, color: getRandomColor() }]); // отображение только на фронте, а то иначе ничего не будет появляться при создании
             setInputValue("");            // ✅ frontend: очистка поля ввода
+            setInputDescription(""); // Очистка данных
             sendTimeToCoub(null, null);   // ✅ frontend: сброс таймера
             setStatus("✅ Помидор успешно создан"); // ✅ frontend: уведомление пользователя
             // ------------------------------------------------------------
@@ -115,44 +119,68 @@ export default function PomadoroCoubStorage() {
 
 
         <div className="flex flex-col gap-2 items-center">
-            status && <label className="text-sm text-red-500">{status}</label>
+            {/*Статус для сохранения в бд и успешность операции создания*/}
+            {status && <label className="text-sm text-red-500">{status}</label>}
 
-            <label htmlFor="name">Введи название задачи:</label>
-            <input
-                className="inputText max-w-[300px] w-full"
-                type="text"
-                maxLength="1000"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-            />
+            <label className="text-black" htmlFor="name">Введи название задачи:</label>
 
+            <div className="flex gap-2 items-center">
+                <input
+                    className="inputText max-w-[300px] w-full"
+                    type="text"
+                    maxLength="1000"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                />
 
-
-
-            <button onClick={donePomodoro} className="buttonCoub max-w-[200px] w-full">💟 Создать кубик</button>
-
-
-
-
-
-            <div className="flex flex-wrap mt-5 max-w-[500px] transition-all duration-300">
-                {coubList.map((coub) => (
-                    <PomadoroCoubDone
-                        key={coub.id}
-                        title={coub.title}
-                        color={coub.color}
-                        startTime={coub.startTime}
-                        endTime={coub.endTime}
-                        onDelete={() => deleteCoub(coub.id)}
-                    />
-                ))}
+                <button onClick={donePomodoro} className="buttonCoub max-w-[100px] w-full">Создать</button>
             </div>
 
-            <PomadoroViewSession></PomadoroViewSession>
+
+            <div className="flex gap-2 items-start w-full max-w-[900px] mx-auto mt-6 ">
+
+                {/* Левая колонка */}
+                <div className="flex flex-col w-1/2 scrollDescription">
+                    <textarea
+                        id="description"
+                        className="inputText w-full min-h-[210px] resize-none p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0"
+                        maxLength="1000"
+                        value={inputDescription}
+                        onChange={(e) => setInputDescription(e.target.value)}
+                        placeholder="Напиши подробнее о том чем вы занимались"
+                    />
+                </div>
+
+                {/* Правая колонка */}
+                <div
+                    className="flex flex-col w-[345px] min-w-[345px] max-w-[345px] h-[210px] border border-gray-300 rounded-md p-3 overflow-y-auto scrollCoubs">
+                    <div className="flex flex-wrap gap-2">
+                        {coubList.length === 0 ? (
+                            <p className="text-gray-400 text-sm italic">Пока ничего нет...</p>
+                        ) : (
+                            coubList.map((coub) => (
+                                <PomadoroCoubDone
+                                    key={coub.id}
+                                    title={coub.title}
+                                    color={coub.color}
+                                    startTime={coub.startTime}
+                                    endTime={coub.endTime}
+                                    onDelete={() => deleteCoub(coub.id)}
+                                    // Для уведомления сверху
+                                    id={coub.id}                  // добавляем id
+                                    focusedId={focusedId}         // текущее активное
+                                    setFocusedId={setFocusedId}   // функция для смены фокуса
+                                />
+                            ))
+
+                        )}
+                    </div>
+                </div>
+            </div>
 
 
             {/* Передаём коллбек в таймер */}
-            <PomadoroTimer sendTimeToCoub={sendTimeToCoub} />
+            <PomadoroTimer sendTimeToCoub={sendTimeToCoub}/>
 
         </div>
     );
