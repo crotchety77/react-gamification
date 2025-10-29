@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import PomadoroTimer from "../PomadoroTimer.jsx";
 import PomadoroCoubDone from "../PomadoroCoub/PomadoroCoubDone.jsx";
 import "./PomadoroCoubStorage.css"
+import {createPomodoro} from "../../../frontendApi/pomodoro.js";
 
 export default function PomadoroCoubStorage() {
     const [status, setStatus] = useState(""); // для сообщений об ошибках или успехе на бэке при сохранении помидорок
@@ -45,55 +46,30 @@ export default function PomadoroCoubStorage() {
     const donePomodoro = async () => {
         if (!inputValue.trim()) {
             setStatus("❌ Название задачи не может быть пустым");
-            // ✅ Только фронтенд: проверка ввода пользователя до отправки на сервер
             return;
         }
 
         const now = Date.now();
 
-        // ------------------------- FRONTEND -------------------------
-        // Этот объект используется для управления состоянием на фронте (например, сразу показать кубик)
         const newCoub = {
             title: inputValue,
             description: inputDescription,
             projectId: 1,
-            startTime: lastStart ?? now, // ✅ frontend: текущее сохранённое время начала или "сейчас"
-            endTime: lastEnd ?? now,      // ✅ frontend: текущее сохранённое время окончания или "сейчас"
+            startTime: lastStart ?? now,
+            endTime: lastEnd ?? now,
         };
-        // ------------------------------------------------------------
 
         try {
-            // ------------------------- BACKEND -------------------------
-            // Отправка данных на сервер, чтобы они сохранились в базе
-            const res = await fetch("http://localhost:4200/api/pomodoro", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newCoub)  // ✅ backend: данные для сохранения
-            });
+            const saved = await createPomodoro(newCoub);
 
-            const saved = await res.json(); // ✅ backend: ответ сервера с уже созданной записью (возможно с id)
-            // ------------------------------------------------------------
-
-            if (!res.ok) {
-                setStatus(`❌ Ошибка сервера: ${saved.message}`);
-                // ✅ frontend: выводим сообщение об ошибке пользователю
-                return;
-            }
-
-            // ------------------------- FRONTEND -------------------------
-            // Добавляем только что созданный "кубик" в список для отображения на странице
-            // Здесь уже можно добавить frontend-поля, которых нет на сервере, например цвет
-            setCoubList(prev => [...prev, { ...saved, color: getRandomColor() }]); // отображение только на фронте, а то иначе ничего не будет появляться при создании
-            setInputValue("");            // ✅ frontend: очистка поля ввода
-            setInputDescription(""); // Очистка данных
-            sendTimeToCoub(null, null);   // ✅ frontend: сброс таймера
-            setStatus("✅ Помидор успешно создан"); // ✅ frontend: уведомление пользователя
-            // ------------------------------------------------------------
-
+            // FRONTEND: обновление состояния и UI
+            setCoubList(prev => [...prev, { ...saved, color: getRandomColor() }]);
+            setInputValue("");
+            setInputDescription("");
+            sendTimeToCoub(null, null);
+            setStatus("✅ Помидор успешно создан");
         } catch (err) {
-            console.error("Ошибка при сохранении в БД:", err);
-            setStatus("❌ Ошибка при соединении с сервером");
-            // ✅ frontend: обработка ошибки соединения
+            setStatus(`❌ ${err.message}`);
         }
     };
 
