@@ -1,9 +1,10 @@
 import PomadoroTitle from "./PomadoroTitle.jsx";
 // import { useState } from "react";
 import './PomadoroCoubDone.css'
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { colorizeSvg } from './SvgToColor.js';
 import svgContent from './PixelBlock.svg?raw'; // импортируем SVG как строку
+import { getPomodoroById } from './getPomodoroById.js'; //
 
 // Отдельный компонент для перекрашивания SVG
 export function ColorSvg({ svgContent, color }) {
@@ -25,48 +26,47 @@ export function ColorSvg({ svgContent, color }) {
 }
 
 
-export default function PomadoroCoubDone({ title, color, onDelete, startTime, endTime, id, focusedId, setFocusedId }) {
+
+export default function PomadoroCoubDone({ title, color, onDelete, startTime, endTime, id, focusedId, setFocusedId, setInputDescription }) {
 
     const isFocused = focusedId === id;
     const cubeRef = useRef(null); // Для работы Tooltip
+
 
     // Роль: отдельный кубик (компонент), отображающий завершённую задачу.
     return (
         <div
             ref={cubeRef} // Для работы Tooltip
 
-            style={{
+            className="cube" // Для CSS
 
-                width: "60px",
-                height: "60px",
-                margin: "5px",
-                borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-                cursor: "pointer",
-            }}
             onMouseEnter={() => setFocusedId(id)}
             onMouseLeave={() => setFocusedId(null)}
+
+            // --------------------------------------------------
+
+            onClick={async () => {
+                setFocusedId(id);
+                try {
+                    const data = await getPomodoroById(id);
+                    setInputDescription(data.description || "");
+                } catch {
+                    setInputDescription("Ошибка загрузки");
+                }
+            }}
+
+            // --------------------------------------------------
+
         >
             {/* SVG с градиентным pixel art блоком */}
             <ColorSvg svgContent={svgContent} color={color}/>
 
             {/* Символ поверх SVG */}
-            <span
-                style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    fontSize: "12px",
-                    color: "#fff",
-                    pointerEvents: "none",
-                }}
-            >
+            <span className={"cube__icon"} >
             ♥
         </span>
+
+
 
             {/* Всплывающая информация Tooltip*/}
             {isFocused && (
@@ -81,22 +81,10 @@ export default function PomadoroCoubDone({ title, color, onDelete, startTime, en
             {/* Кнопка удаления */}
             <button
                 onClick={onDelete}
-                style={{
-                    position: "absolute",
-                    top: "-6px",
-                    right: "-4px",
-                    width: "20px",
-                    height: "20px",
-                    background: "white",
-                    color,
-                    border: `2px solid ${color}`,
-                    borderRadius: "10%",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: "pointer",
-                    padding: 0,
-                }}
+
+                className="delete-button"
+                style={{ "--btn-color": color }} // ← передаём цвет через CSS-переменную
+
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -104,14 +92,10 @@ export default function PomadoroCoubDone({ title, color, onDelete, startTime, en
                     height="12"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke={color}
+                    stroke="var(--btn-color)" // ← используем ту же переменную
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    style={{
-                        display: "block", // убирает baseline-смещение
-                        shapeRendering: "crispEdges", // пиксельная точность
-                    }}
                 >
                     <line x1="6" y1="6" x2="18" y2="18"/>
                     <line x1="18" y1="6" x2="6" y2="18"/>

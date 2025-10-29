@@ -9,6 +9,8 @@ pomodoroRouter.post('/', pomodoroController.create);
 pomodoroRouter.get('/', pomodoroController.getAll)
 pomodoroRouter.delete('/:id', pomodoroController.delete); // <--- новый маршрут
 
+pomodoroRouter.get('/:id', pomodoroController.getOne); // в TextArea Description
+
 
 
 export default pomodoroRouter

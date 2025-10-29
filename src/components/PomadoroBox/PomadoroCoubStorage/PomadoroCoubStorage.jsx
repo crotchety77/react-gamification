@@ -41,7 +41,7 @@ export default function PomadoroCoubStorage() {
 
     // Функция собирает данные о выполненной сессии
 
-    // Попыдка создать запрос на создание pomadoro на бэке
+    // Попытка создать запрос на создание pomadoro на бэке
     const donePomodoro = async () => {
         if (!inputValue.trim()) {
             setStatus("❌ Название задачи не может быть пустым");
@@ -156,7 +156,7 @@ export default function PomadoroCoubStorage() {
                     className="flex flex-col w-[345px] min-w-[345px] max-w-[345px] h-[210px] border border-gray-300 rounded-md p-3 overflow-y-auto scrollCoubs">
                     <div className="flex flex-wrap gap-2">
                         {coubList.length === 0 ? (
-                            <p className="text-gray-400 text-sm italic">Пока ничего нет...</p>
+                            <p className="text-gray-400 text-sm italic">Начинай работу :D</p>
                         ) : (
                             coubList.map((coub) => (
                                 <PomadoroCoubDone
@@ -170,6 +170,9 @@ export default function PomadoroCoubStorage() {
                                     id={coub.id}                  // добавляем id
                                     focusedId={focusedId}         // текущее активное
                                     setFocusedId={setFocusedId}   // функция для смены фокуса
+
+                                    // Для вывода Description обратно в TextArea при нажатии
+                                    setInputDescription={setInputDescription} // <- добавили
                                 />
                             ))
 
